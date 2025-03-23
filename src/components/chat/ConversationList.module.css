@@ -1,0 +1,28 @@
+
+.conversationList {
+  padding: 20px;
+}
+
+.conversationList h2 {
+  margin-bottom: 15px;
+}
+
+.conversationItem {
+  list-style: none;
+}
+
+.conversationLink {
+  display: block;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  border-radius: 2px;
+  text-decoration: none;
+  color: var(--text-color);
+  border-top: 1px solid var(--theme-color);
+  border-bottom: white 5px;
+}
+
+.conversationLink:hover {
+  background-color: var(--hover-darken);
+  transition: background-color 0.3ms;
+}

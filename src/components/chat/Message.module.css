@@ -1,0 +1,39 @@
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    max-width: 70%;
+    clear: both;
+}
+
+.sent {
+    background-color: #fad1cb;
+    align-self: flex-end;
+    float: right;
+}
+
+.received {
+    background-color: #fff;
+    align-self: flex-start;
+    float: left;
+}
+
+.messageContent {
+    word-wrap: break-word;
+    color: #494949
+}
+
+.messageMeta {
+    font-size: 0.8rem;
+    color: #888;
+    display: flex;
+    justify-content: space-between;;
+}
+
+.sender {
+    font-weight: bold;
+}
+
+.timestamp {
+    font-style: italic;
+}

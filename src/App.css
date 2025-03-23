@@ -1,0 +1,123 @@
+html{
+  padding: 0;
+  margin: 0;
+  width:100%;
+  height:100%;
+}
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --bg-color: #242424;
+  --data-theme-toggle-img: url('./assets/svg/moon.svg');
+  --theme-color: #8f53ef;
+  --hover-darken: rgba(183, 183, 183, 0.158);
+  overflow: hidden;
+}
+
+[data-theme="light"] {
+  --text-color: rgba(65, 65, 65, 0.87);
+  --bg-color: #dedede;
+  --data-theme-toggle-img: url('./assets/svg/sun.svg');
+  --hover-darken: rgba(32, 32, 32, 0.207);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #cdafff;
+  border-bottom: 1px solid #dddddd;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header .view-mode-toggle {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  background: var(--data-theme-toggle-img);
+  background-size: cover;
+  margin-right: 10px;
+}
+.header .view-mode-toggle:hover {
+  cursor: pointer;
+}
+.header .theme-toggle-profile-container {
+  display: flex;
+}
+.header .profile-icon {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: var(--theme-color);
+  /* Add profile picture or icon here */
+}
+
+.header .back-button {
+  display: none; /* Hidden by default */
+}
+
+.chat-layout {
+  display: flex;
+  flex-grow: 1; /* Allow chat-layout to take up remaining height */
+  height: calc(100vh - 41px);
+}
+
+.chat-list-container {
+  width: 30%;
+  border-right: 1px solid var(--text-color);
+  /* height: (100vh - 30px); */
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.chat-area-container {
+  width: 70%;
+  flex-grow: 1;
+  overflow-y: auto;
+  height: calc(100vh - 70px);
+}
+
+/* Mobile View (less than 600px) */
+@media (max-width: 600px) {
+  .chat-layout {
+    flex-direction: column; /* Stack chat list and area vertically */
+  }
+
+  .chat-list-container {
+    width: 100%; /* Take full width */
+  }
+
+  .chat-area-container {
+    width: 100%; /* Take full width */
+    display: none; /* Hide by default */
+  }
+
+  .chat-area-container.active {
+    display: block; /* Show when active class is applied */
+  }
+
+  .header .back-button {
+    display: block; /* Show back button */
+  }
+}
