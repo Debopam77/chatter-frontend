@@ -54,3 +54,20 @@ export const getConversations = async (userId: string|undefined): Promise<Conver
 
     return [];
 }
+
+export const startConversation = async(userId1: string, userId2: string): Promise<Conversation|null> => {
+    if(userId1 && userId2) {
+        const payload = {
+            type: "private",
+            participants: [userId1, userId2]
+        }
+        try {
+            const response = await api.post(`/convo/`, payload);
+            return response.data;
+        } catch(error: any) {
+            console.error(`Could not initiate conversation:`, error.message);
+        }
+    }
+
+    return null;
+}

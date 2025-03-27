@@ -45,3 +45,9 @@
 .sendButton:hover {
     background-color: #0056b3;
 }
+/* Mobile View (less than 600px) */
+@media (max-width: 600px) {
+    .inputContainer {
+        bottom: 120px;
+    }
+}

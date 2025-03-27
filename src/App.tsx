@@ -16,6 +16,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import { AuthProvider } from './contexts/AuthContext';
 import ProfileDropdown from './components/shared/ProfileDropdown';
+import SearchPeople from './components/shared/SearchPeople';
 function App() {
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
@@ -60,7 +61,7 @@ function App() {
                   </div>
                 </div>
                 <div className='chat-layout'>
-                  <div className='chat-list-container'>
+                  <div className={`chat-list-container ${isMobileChatActive ? 'active' : ''}`}>
                     <ConversationList onConversationSelect={handleConversationSelect}></ConversationList>
                   </div>
                   <div className={`chat-area-container ${isMobileChatActive ? 'active' : ''}`}>
@@ -69,6 +70,11 @@ function App() {
                 </div>
               </div>
             </PrivateRoute>}/>
+            <Route path="search" element={
+              <PrivateRoute>
+                <SearchPeople onConversationSelect={handleConversationSelect}/>
+              </PrivateRoute>
+            }/>
         </Routes>
       </Router>
     </AuthProvider>
