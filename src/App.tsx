@@ -17,6 +17,9 @@ import Register from './components/auth/Register';
 import { AuthProvider } from './contexts/AuthContext';
 import ProfileDropdown from './components/shared/ProfileDropdown';
 import SearchPeople from './components/shared/SearchPeople';
+import Header from './components/shared/Header';
+import CreateConversation from './components/chat/CreateConversation';
+import CreateGroup from './components/chat/CreateGroup';
 function App() {
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
@@ -24,7 +27,7 @@ function App() {
   const [selectedConversation, setSelectedConversation] = useState<string>('');
   const [profileDropdownIsOpen, setProfileDropdownIsOpen] = useState<boolean>(false);
   // Handle light and dark mode changes
-  useEffect(()=> {
+  useEffect(() => {
     const val = (isDarkMode) ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', val);
   }, [isDarkMode]);
@@ -33,7 +36,7 @@ function App() {
   const handleConversationSelect = (conversationId: string) => {
     setSelectedConversation(conversationId);
     // To do, find a better way to do this
-    if(window.innerWidth <= 600) {
+    if (window.innerWidth <= 600 && selectedConversation === '') {
       setIsMobileChatActive(true);
     }
   }
@@ -47,34 +50,56 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/" element={
             <PrivateRoute>
               <div className="app-container">
-                <div className="header">
-                  <h1>Chatter</h1>
-                  <button className="back-button" onClick={handleBackButtonClick}>Back</button>
-                  <div className="theme-toggle-profile-container">
-                    <div className="view-mode-toggle" onClick={()=> {setIsDarkMode(!isDarkMode)}}></div>
-                    <ProfileDropdown opened={profileDropdownIsOpen}/>
-                  </div>
-                </div>
+                <Header 
+                    isMobileChatActive={isMobileChatActive} 
+                    handleBackButtonClick={handleBackButtonClick}
+                    profileDropdownIsOpen={profileDropdownIsOpen}
+                    isDarkMode={isDarkMode}
+                    setIsDarkMode={setIsDarkMode}>
+                </Header>
                 <div className='chat-layout'>
                   <div className={`chat-list-container ${isMobileChatActive ? 'active' : ''}`}>
                     <ConversationList onConversationSelect={handleConversationSelect}></ConversationList>
                   </div>
                   <div className={`chat-area-container ${isMobileChatActive ? 'active' : ''}`}>
-                    {(selectedConversation !== '') ? <ChatArea conversationId={selectedConversation}/> : ''}
+                    {(selectedConversation !== '') ? <ChatArea conversationId={selectedConversation} /> : ''}
                   </div>
                 </div>
               </div>
-            </PrivateRoute>}/>
-            <Route path="search" element={
-              <PrivateRoute>
-                <SearchPeople onConversationSelect={handleConversationSelect}/>
-              </PrivateRoute>
-            }/>
+            </PrivateRoute>} />
+          <Route path="/new-chat" element={
+            <PrivateRoute>
+              <div className="app-container">
+                <Header 
+                  isMobileChatActive={isMobileChatActive} 
+                  handleBackButtonClick={handleBackButtonClick}
+                  profileDropdownIsOpen={profileDropdownIsOpen}
+                  isDarkMode={isDarkMode}
+                  setIsDarkMode={setIsDarkMode}>  
+                </Header>
+                <CreateConversation onConversationSelect={handleConversationSelect} />
+              </div>
+            </PrivateRoute>
+          } />
+          <Route path="/new-group" element={
+            <PrivateRoute>
+              <div className="app-container">
+                <Header 
+                  isMobileChatActive={isMobileChatActive} 
+                  handleBackButtonClick={handleBackButtonClick}
+                  profileDropdownIsOpen={profileDropdownIsOpen}
+                  isDarkMode={isDarkMode}
+                  setIsDarkMode={setIsDarkMode}>  
+                </Header>
+                <CreateGroup />
+              </div>
+            </PrivateRoute>
+          } />
         </Routes>
       </Router>
     </AuthProvider>

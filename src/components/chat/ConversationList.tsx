@@ -1,7 +1,8 @@
 // src/components/Chat/ConversationList.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Conversation } from '../../types/types'; // Assuming you have this type
-import { getConversations } from '../../services/chatService';
+import { getConversations, connectSocket, disconnectSocket } from '../../services/chatService';
 import styles from './ConversationList.module.css'; // Import CSS module
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -12,26 +13,68 @@ interface ConversationListProps {
 const ConversationList: React.FC<ConversationListProps> = ({ onConversationSelect }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAddButtonsVisible, setIsAddButtonsVisible] = useState(false);
+  const navigate = useNavigate();
+  const addButtonRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
   const {user} = useAuth();
   const userId = user?._id;
 
-  useEffect(() => {
-    // To do - get user id
-    const fetchConversations = async () => {
+  useEffect(()=> {
+    const fetchConversations = async ()=> {
       try {
         setLoading(true);
         const fetchedConversations = await getConversations(userId);
-        setConversations(fetchedConversations);    
-      } catch (err: any) {
-        setError('Heya ' +err.message || 'Failed to load conversations.');
+        setConversations(fetchedConversations);
+      } catch (error: any) {
+        setError((error.message || 'Failed to load conversations.'));
       } finally {
         setLoading(false);
       }
-    };
-
+    }; 
     fetchConversations();
-  }, []);
+
+    //connectSocket('temporary-fake-token');
+
+    // Listen for new Conversations
+    // Replace true, with proper user token, To Do
+    if(true) {
+      const handleNewConversation = (newConversation: Conversation) => {
+        setConversations((conversations)=> {
+          const conversationExists = conversations.find((conversation) => conversation._id === newConversation._id);
+          if(conversationExists) {
+            return conversations;
+          }
+          console.log(newConversation);
+          const arr = new Array();
+          arr.push(newConversation);
+          arr.push(...conversations);
+          console.log(arr);
+          return arr;
+
+        });
+      }
+      const socket = connectSocket('temporary-fake-token');
+      socket?.on('newConversation', handleNewConversation);
+
+      return () => {
+        socket?.off('newConversation', handleNewConversation);
+        disconnectSocket();
+      };
+    }
+  }, [user]);
+
+  const handleAddButtonClick = () => {
+    setIsAddButtonsVisible(!isAddButtonsVisible);
+  };
+
+  const handleNewConversationClick = () => {
+    navigate('/new-chat');
+  };
+
+  const handleNewGroupClick = () => {
+    navigate('/new-group'); // Assuming you have a CreateGroup page
+  };
 
   if (loading) {
     return <p>Loading conversations...</p>;
@@ -59,6 +102,15 @@ const ConversationList: React.FC<ConversationListProps> = ({ onConversationSelec
             </div>
           </div>
         ))}
+      </div>
+      <div className={styles.addButtonContainer} ref={addButtonRef}>
+        {isAddButtonsVisible && (
+          <div className={styles.addButtons}>
+            <button className={styles.addButton} onClick={handleNewConversationClick}>New Conversation</button>
+            <button className={styles.addButton} onClick={handleNewGroupClick}>New Group</button>
+          </div>
+        )}
+        <button className={styles.addButton} onClick={handleAddButtonClick}>+</button>
       </div>
     </div>
   );

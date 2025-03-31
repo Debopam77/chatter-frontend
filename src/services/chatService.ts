@@ -11,6 +11,7 @@ export const connectSocket = (token: string) => {
                 token: token,
             },
         });
+        return socket;
     }
 };
 

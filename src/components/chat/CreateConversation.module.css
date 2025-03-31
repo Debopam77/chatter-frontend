@@ -1,0 +1,52 @@
+.searchContainer {
+    width: 400px;
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+.searchResults {
+    list-style: none;
+    padding: 0;
+}
+
+.searchResultItem {
+    padding: 20px;
+    padding-left: 5px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+}
+
+.chatButton {
+    position: absolute;
+    right: 5px;
+    bottom: 10px;
+}
+
+.searchResultItem:hover {
+    transition: 0.3s;
+    background-color: var(--hover-darken);
+}
+
+.searchResultItem button {
+    padding: 10px 15px;
+    background-color: #b04ee1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.searchResultItem button:hover {
+    background-color: var(--hover-darken);
+}
+
+.searchResultItem:last-child {
+    border-bottom: none;
+}
+
+.error {
+    color: red;
+}

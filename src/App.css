@@ -1,6 +1,6 @@
 html{
-  padding: 0;
-  margin: 0;
+  padding: 0px;
+  margin: 0px;
   width:100%;
   height:100%;
 }
@@ -10,9 +10,12 @@ html{
   --bg-color: #242424;
   --data-theme-toggle-img: url('./assets/svg/moon.svg');
   --theme-color: #8f53ef;
+  --theme-color-hover: #bd94ff;
+  --theme-color-select: #7041bb;
   --profile-dropdown-background: rgb(58, 58, 58);
   --profile-dropdown-background-hover: rgb(87, 58, 106);
   --hover-darken: rgba(155, 97, 190, 0.258);
+  --back-button-img: url('./assets/svg/back-button.svg');
   overflow: hidden;
 }
 
@@ -29,6 +32,8 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s;
+  padding: 0;
+  margin: 0;
 }
 
 .app-container {
@@ -58,6 +63,7 @@ body {
   height: 30px;
   border-radius: 30px;
   background: var(--data-theme-toggle-img);
+  align-self: center;
   background-size: cover;
   margin-right: 10px;
 }
@@ -88,6 +94,8 @@ body {
 
 .chat-list-container {
   width: 30%;
+  height: 100%;
+  position: relative;
   border-right: 1px solid var(--text-color);
   /* height: (100vh - 30px); */
   overflow-y: auto;
@@ -110,6 +118,7 @@ body {
 
   .chat-list-container {
     width: 100%; /* Take full width */
+    height: 100%;
   }
 
   .chat-area-container {
@@ -126,6 +135,14 @@ body {
   }
 
   .header .back-button {
-    display: block; /* Show back button */
+    display: none; /* Show back button */
+    width: 30px;
+    height: 30px;
+    background: var(--back-button-img);
+    background-size: cover;
+    border-radius: 30px;
+  }
+  .header .back-button.active{
+    display: block; /* Hide back button */
   }
 }
